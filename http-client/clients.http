@@ -1,3 +1,8 @@
+### List all clients
 GET http://localhost:8092/api/v1/client
+Accept: application/json
 
-GET http://localhost:8092/api/v1/client/34353562-3866-6164-2d64-3835662d3433
+### Get a client by ID
+GET http://localhost:8092/api/v1/client/95ae9e6d-4829-4274-82f8-573546724770
+Accept: application/json
+
