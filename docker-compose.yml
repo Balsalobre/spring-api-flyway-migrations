@@ -15,4 +15,5 @@ services:
       interval: 10s
       timeout: 10s
       retries: 10
+    mem_limit: 2g
     restart: always

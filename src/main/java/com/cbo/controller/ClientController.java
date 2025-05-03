@@ -3,6 +3,7 @@ package com.cbo.controller;
 import com.cbo.model.entity.Client;
 import com.cbo.service.IClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -15,8 +16,8 @@ public class ClientController {
     private IClient clientService;
 
     @PostMapping()
-    public Client create(Client client) {
-        return clientService.save(client);
+    public ResponseEntity<Client> create(@RequestBody Client client) {
+        return ResponseEntity.ok(clientService.save(client));
     }
 
     @PutMapping("/{clientId}")
@@ -32,5 +33,10 @@ public class ClientController {
     @GetMapping("/{clientId}")
     public Client getById(@PathVariable UUID clientId) {
         return clientService.findByClientId(clientId);
+    }
+
+    @GetMapping()
+    public Iterable<Client> getAll() {
+        return clientService.findAll();
     }
 }

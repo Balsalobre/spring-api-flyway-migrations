@@ -1,18 +1,19 @@
 package com.cbo.service.impl;
 
-import com.cbo.model.dao.ClientDAO;
+import com.cbo.model.dao.ClientRepository;
 import com.cbo.model.entity.Client;
 import com.cbo.service.IClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Service
 public class ClientImpl implements IClient {
     @Autowired
-    private ClientDAO clientDAO;
+    private ClientRepository clientDAO;
 
     @Transactional
     @Override
@@ -28,7 +29,6 @@ public class ClientImpl implements IClient {
                     existingClient.setName(client.getName());
                     existingClient.setSurname(client.getSurname());
                     existingClient.setEmail(client.getEmail());
-                    existingClient.setRegistrationDate(client.getRegistrationDate());
                     return existingClient;
                 })
                 .orElse(null);
@@ -38,6 +38,12 @@ public class ClientImpl implements IClient {
     @Override
     public Client findByClientId(UUID clientId) {
         return clientDAO.findById(clientId).orElse(null);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Iterable<Client> findAll() {
+        return clientDAO.findAll();
     }
 
     @Transactional

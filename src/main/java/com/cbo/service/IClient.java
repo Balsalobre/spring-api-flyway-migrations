@@ -11,5 +11,7 @@ public interface IClient {
 
     Client findByClientId(UUID clientId);
 
+    Iterable<Client> findAll();
+
     void deleteByClientId(UUID clientId);
 }

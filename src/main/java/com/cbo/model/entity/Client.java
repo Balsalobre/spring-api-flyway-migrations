@@ -28,8 +28,11 @@ public class Client implements Serializable {
     private String surname;
 
     @Column(name = "phone")
-    private String email;
+    private String phone;
 
     @Column(name = "email")
-    private Date registrationDate;
+    private String email;
+    
+    @Column(name = "registration_date")
+    private Date registrationDate = new Date();
 }
