@@ -6,3 +6,14 @@ Accept: application/json
 GET http://localhost:8092/api/v1/client/95ae9e6d-4829-4274-82f8-573546724770
 Accept: application/json
 
+### Create a new client
+POST http://localhost:8092/api/v1/client
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "New Client",
+  "surname": "new-client",
+  "phone": "12345678901",
+  "email": "new-client@gmail.com"
+ }
