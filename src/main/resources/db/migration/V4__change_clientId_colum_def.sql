@@ -1,0 +1,1 @@
+ALTER TABLE clients MODIFY client_id VARCHAR2(36);

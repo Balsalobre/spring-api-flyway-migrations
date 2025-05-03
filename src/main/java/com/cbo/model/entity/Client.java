@@ -5,8 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.JdbcTypeCode;
 
 import java.io.Serializable;
+import java.sql.Types;
 import java.util.Date;
 import java.util.UUID;
 
@@ -18,7 +20,8 @@ import java.util.UUID;
 @Table(name = "clients")
 public class Client implements Serializable {
     @Id
-    @Column(name = "client_id", columnDefinition = "CHAR(36)")
+    @JdbcTypeCode(Types.VARCHAR)
+    @Column(name = "client_id")
     private UUID clientId = UUID.randomUUID();
 
     @Column(name = "name")

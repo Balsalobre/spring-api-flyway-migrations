@@ -1,7 +1,7 @@
 package com.cbo.controller;
 
 import com.cbo.model.entity.Client;
-import com.cbo.service.IClient;
+import com.cbo.service.impl.ClientServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +14,7 @@ import java.util.UUID;
 public class ClientController {
 
     @Autowired
-    private IClient clientService;
+    private ClientServiceImpl clientService;
 
     @PostMapping()
     public ResponseEntity<Client> create(@RequestBody Client client) {

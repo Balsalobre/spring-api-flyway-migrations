@@ -4,7 +4,7 @@ import com.cbo.model.entity.Client;
 
 import java.util.UUID;
 
-public interface IClient {
+public interface IServiceClientImplementation {
     Client save(Client client);
 
     Client updateByClientId(UUID clientId, Client client);

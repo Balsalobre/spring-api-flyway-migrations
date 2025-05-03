@@ -2,16 +2,15 @@ package com.cbo.service.impl;
 
 import com.cbo.model.dao.ClientRepository;
 import com.cbo.model.entity.Client;
-import com.cbo.service.IClient;
+import com.cbo.service.IServiceClientImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.UUID;
 
 @Service
-public class ClientImpl implements IClient {
+public class ClientServiceImpl implements IServiceClientImplementation {
     @Autowired
     private ClientRepository clientDAO;
 
