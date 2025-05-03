@@ -17,3 +17,19 @@ Accept: application/json
   "phone": "12345678901",
   "email": "new-client@gmail.com"
  }
+
+### Update a client by ID
+PUT http://localhost:8092/api/v1/client/95ae9e6d-4829-4274-82f8-573546724770
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "Updated Client",
+  "surname": "updated-client",
+  "phone": "123456789012",
+  "email": "updated-client@gmail.com"
+}
+
+### Delete a client by ID
+DELETE http://localhost:8092/api/v1/client/95ae9e6d-4829-4274-82f8-573546724770
+Accept: application/json

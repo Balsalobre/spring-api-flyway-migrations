@@ -23,7 +23,7 @@ public class ClientController {
 
     @PutMapping("/{clientId}")
     @ResponseStatus(HttpStatus.OK)
-    public Client update(@PathVariable UUID clientId, Client client) {
+    public Client update(@PathVariable UUID clientId, @RequestBody Client client) {
         return clientService.updateByClientId(clientId, client);
     }
 
