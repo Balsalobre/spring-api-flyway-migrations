@@ -9,10 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.cbo</groupId>
-	<artifactId>first-spring-api-rest</artifactId>
+	<artifactId>spring-api-flyway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>first-spring-api-rest</name>
-	<description>Demo project for Spring Boot</description>
+	<name>spring-api-flyway</name>
 	<url/>
 	<licenses>
 		<license/>

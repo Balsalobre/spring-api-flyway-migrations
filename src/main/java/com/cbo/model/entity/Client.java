@@ -32,6 +32,9 @@ public class Client implements Serializable {
 
     @Column(name = "email")
     private String email;
+
+    @Column(name = "updated_at")
+    private Date updatedAt = new Date();
     
     @Column(name = "registration_date")
     private Date registrationDate = new Date();
