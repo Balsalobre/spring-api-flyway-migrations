@@ -1,6 +1,6 @@
-package com.cbo.service;
+package com.cbo.layered.service;
 
-import com.cbo.model.dto.ClientDto;
+import com.cbo.layered.model.dto.ClientDto;
 import java.util.UUID;
 
 public interface IClientServiceImplementation {

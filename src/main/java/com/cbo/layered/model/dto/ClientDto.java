@@ -1,4 +1,4 @@
-package com.cbo.model.dto;
+package com.cbo.layered.model.dto;
 
 import lombok.*;
 import java.io.Serializable;

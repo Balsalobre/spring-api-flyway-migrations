@@ -1,4 +1,4 @@
-package com.cbo.model.entity;
+package com.cbo.layered.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

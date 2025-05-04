@@ -1,9 +1,9 @@
-package com.cbo.service.impl;
+package com.cbo.layered.service.impl;
 
-import com.cbo.model.dao.ClientRepository;
-import com.cbo.model.dto.ClientDto;
-import com.cbo.model.entity.Client;
-import com.cbo.service.IClientServiceImplementation;
+import com.cbo.layered.model.dao.ClientRepository;
+import com.cbo.layered.model.dto.ClientDto;
+import com.cbo.layered.model.entity.Client;
+import com.cbo.layered.service.IClientServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

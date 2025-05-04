@@ -1,6 +1,6 @@
-package com.cbo.model.dao;
+package com.cbo.layered.model.dao;
 
-import com.cbo.model.entity.Client;
+import com.cbo.layered.model.entity.Client;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 // import org.springframework.data.PagingAndSortingRepository;

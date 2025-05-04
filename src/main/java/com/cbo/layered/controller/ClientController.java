@@ -1,8 +1,7 @@
-package com.cbo.controller;
+package com.cbo.layered.controller;
 
-import com.cbo.model.dto.ClientDto;
-import com.cbo.model.entity.Client;
-import com.cbo.service.impl.ClientServiceImpl;
+import com.cbo.layered.model.dto.ClientDto;
+import com.cbo.layered.service.impl.ClientServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
