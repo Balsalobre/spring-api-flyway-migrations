@@ -18,16 +18,3 @@ services:
     mem_limit: 2g
     restart: always
 
-  spring-api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: spring-api
-    ports:
-      - "8080:8092"
-    depends_on:
-      - oracle-db
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@//oracle-db:1521/XEPDB1
-      SPRING_DATASOURCE_USERNAME: app_user
-      SPRING_DATASOURCE_PASSWORD: app_password
