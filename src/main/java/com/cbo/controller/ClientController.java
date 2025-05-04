@@ -1,5 +1,6 @@
 package com.cbo.controller;
 
+import com.cbo.model.dto.ClientDto;
 import com.cbo.model.entity.Client;
 import com.cbo.service.impl.ClientServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +18,13 @@ public class ClientController {
     private ClientServiceImpl clientService;
 
     @PostMapping()
-    public ResponseEntity<Client> create(@RequestBody Client client) {
+    public ResponseEntity<ClientDto> create(@RequestBody ClientDto client) {
         return ResponseEntity.status(HttpStatus.CREATED).body(clientService.save(client));
     }
 
     @PutMapping("/{clientId}")
     @ResponseStatus(HttpStatus.OK)
-    public Client update(@PathVariable UUID clientId, @RequestBody Client client) {
+    public ClientDto update(@PathVariable UUID clientId, @RequestBody ClientDto client) {
         return clientService.updateByClientId(clientId, client);
     }
 
@@ -35,13 +36,13 @@ public class ClientController {
 
     @GetMapping("/{clientId}")
     @ResponseStatus(HttpStatus.OK)
-    public Client getById(@PathVariable UUID clientId) {
+    public ClientDto getById(@PathVariable UUID clientId) {
         return clientService.findByClientId(clientId);
     }
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public Iterable<Client> getAll() {
+    public Iterable<ClientDto> getAll() {
         return clientService.findAll();
     }
 }

@@ -3,7 +3,7 @@ GET http://localhost:8092/api/v1/client
 Accept: application/json
 
 ### Get a client by ID
-GET http://localhost:8092/api/v1/client/95ae9e6d-4829-4274-82f8-573546724770
+GET http://localhost:8092/api/v1/client/7a05f895-b371-401b-a567-afd7ba681803
 Accept: application/json
 
 ### Create a new client
@@ -14,20 +14,20 @@ Accept: application/json
 {
   "name": "New Client",
   "surname": "new-client",
-  "phone": "12345678901",
-  "email": "new-client@gmail.com"
+  "phone": "123456789010000",
+  "email": "new-client01@gmail.com"
  }
 
 ### Update a client by ID
-PUT http://localhost:8092/api/v1/client/95ae9e6d-4829-4274-82f8-573546724770
+PUT http://localhost:8092/api/v1/client/20e0b61a-f317-4a1f-9494-0a4b86d97ac9
 Content-Type: application/json
 Accept: application/json
 
 {
   "name": "Updated Client",
   "surname": "updated-client",
-  "phone": "123456789012",
-  "email": "updated-client@gmail.com"
+  "phone": "1234567890123",
+  "email": "updated-client01@gmail.com"
 }
 
 ### Delete a client by ID
