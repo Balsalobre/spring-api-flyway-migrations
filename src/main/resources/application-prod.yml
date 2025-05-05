@@ -1,0 +1,13 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    url: jdbc:oracle:thin:@//${DB_HOST:oracle-db}:${DB_PORT:1521}/${DB_SID:XEPDB1}
+    username: ${DB_ADMIN_USER}
+    password: ${DB_ADMIN_USER_PASS}
+
+  flyway:
+    user: ${DB_ADMIN_USER}
+    password: ${DB_ADMIN_USER_PASS}

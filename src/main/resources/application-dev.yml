@@ -1,0 +1,15 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  datasource:
+    url: jdbc:oracle:thin:@//localhost:1521/XEPDB1
+    username: ${DB_ADMIN_USER:app_user}
+    password: ${DB_ADMIN_USER_PASS:app_password}
+
+  flyway:
+    user: ${DB_ADMIN_USER:app_user}
+    password: ${DB_ADMIN_USER_PASS:app_password}
+    baseline-on-migrate: true
+    baseline-version: 1
