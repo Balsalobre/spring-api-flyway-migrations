@@ -11,11 +11,12 @@ import java.util.UUID;
 @ToString
 @Builder
 public class ClientDto implements Serializable {
+    @Builder.Default
     private UUID clientId = UUID.randomUUID();
     private String name;
     private String surname;
     private String phone;
     private String email;
-    private Date updatedAt = new Date();
-    private Date registrationDate = new Date();
+    private Date updatedAt;
+    private Date registrationDate;
 }

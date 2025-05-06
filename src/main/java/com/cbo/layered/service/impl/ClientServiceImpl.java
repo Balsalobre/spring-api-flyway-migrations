@@ -1,10 +1,10 @@
 package com.cbo.layered.service.impl;
 
-import com.cbo.layered.model.dao.ClientRepository;
+import com.cbo.layered.infrastructure.mybatis.ClientMapper;
 import com.cbo.layered.model.dto.ClientDto;
 import com.cbo.layered.model.entity.Client;
 import com.cbo.layered.service.IClientServiceImplementation;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,42 +15,49 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
+@RequiredArgsConstructor
 public class ClientServiceImpl implements IClientServiceImplementation {
-    @Autowired
-    private ClientRepository clientDAO;
+
+    private final ClientMapper clientMapper;
 
     @Transactional
     @Override
     public ClientDto save(ClientDto clientDto) {
         Client client = convertToEntity(clientDto);
-        Client savedClient = clientDAO.save(client);
-        return convertToDto(savedClient);
+        client.setClientId(UUID.randomUUID());
+        client.setRegistrationDate(new Date());
+        client.setUpdatedAt(new Date());
+
+        clientMapper.save(client);
+        return convertToDto(client);
     }
 
     @Transactional
     @Override
     public ClientDto updateByClientId(UUID clientId, ClientDto clientDto) {
-        return clientDAO.findById(clientId).map(existingClient -> {
-            existingClient.setName(clientDto.getName());
-            existingClient.setSurname(clientDto.getSurname());
-            existingClient.setPhone(clientDto.getPhone());
-            existingClient.setEmail(clientDto.getEmail());
-            existingClient.setUpdatedAt(new Date());
-            Client updatedClient = clientDAO.save(existingClient);
-            return convertToDto(updatedClient);
-        }).orElse(null);
+        Client existingClient = clientMapper.findById(clientId)
+                .orElseThrow(() -> new RuntimeException("Client not found" + clientId));
+
+        existingClient.setName(clientDto.getName());
+        existingClient.setSurname(clientDto.getSurname());
+        existingClient.setPhone(clientDto.getPhone());
+        existingClient.setEmail(clientDto.getEmail());
+        existingClient.setUpdatedAt(new Date());
+
+        clientMapper.update(clientId, existingClient);
+        return convertToDto(existingClient);
     }
 
     @Transactional(readOnly = true)
     @Override
     public ClientDto findByClientId(UUID clientId) {
-        return clientDAO.findById(clientId).map(this::convertToDto).orElse(null);
+        return clientMapper.findById(clientId).map(this::convertToDto).orElse(null);
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<ClientDto> findAll() {
-        return StreamSupport.stream(clientDAO.findAll().spliterator(), false)
+        return StreamSupport.stream(clientMapper.findAll().spliterator(), false)
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
@@ -58,8 +65,10 @@ public class ClientServiceImpl implements IClientServiceImplementation {
     @Transactional
     @Override
     public void deleteByClientId(UUID clientId) {
-        clientDAO.deleteById(clientId);
+        clientMapper.deleteById(clientId);
     }
+
+    /** ********************************************************* */
 
     private Client convertToEntity(ClientDto clientDto) {
         return Client.builder()

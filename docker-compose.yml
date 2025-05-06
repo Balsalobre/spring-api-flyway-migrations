@@ -3,15 +3,21 @@ services:
     image: gvenzl/oracle-xe:21-slim
     container_name: oracle-db
     ports:
-      - "1521:1521"
+      - "${DB_PORT}:1521"
     environment:
-      ORACLE_PASSWORD: mysecretpassword
-      APP_USER: app_user
-      APP_USER_PASSWORD: app_password
+      ORACLE_PASSWORD: ${DB_PASSWORD}
+      APP_USER: ${DB_ADMIN_USER}
+      APP_USER_PASSWORD: ${DB_ADMIN_USER_PASS}
     volumes:
       - ./volumes/database:/opt/oracle/oradata
     healthcheck:
-      test: [ "CMD", "sqlplus", "-L", "app_user/app_password@//localhost:1521/XEPDB1" ]
+      #test: [ "CMD", "sqlplus", "-L", "app_user/app_password@//localhost:1521/XEPDB1" ]
+      test: [
+        "CMD",
+        "sqlplus",
+        "-L",
+        "${DB_ADMIN_USER}/${DB_ADMIN_USER_PASS}@//localhost:${DB_PORT}/${DB_SID}"
+      ]
       interval: 10s
       timeout: 10s
       retries: 10
@@ -26,8 +32,12 @@ services:
     ports:
       - "8080:8092"
     depends_on:
-      - oracle-db
+      oracle-db:
+        condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@//oracle-db:1521/XEPDB1
-      SPRING_DATASOURCE_USERNAME: app_user
-      SPRING_DATASOURCE_PASSWORD: app_password
+      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@//${DB_HOST}:${DB_PORT}/${DB_SID}
+      SPRING_DATASOURCE_USERNAME: ${DB_ADMIN_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_ADMIN_USER_PASS}
+
+      # Production spring profile
+      SPRING_PROFILES_ACTIVE: prod
