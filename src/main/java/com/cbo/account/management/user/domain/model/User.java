@@ -1,6 +1,9 @@
 package com.cbo.account.management.user.domain.model;
 
 import com.cbo.account.management.user.domain.valueobject.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,7 +13,11 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+@Getter
+@ToString
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class User {
+    @EqualsAndHashCode.Include
     private final UserId id;
     private final NationalId nationalId;
     private final LocalDate dateOfBirth;
@@ -52,109 +59,74 @@ public class User {
         validateAge();
     }
 
-    private void validateAge() {
-        LocalDate today = LocalDate.now();
-        Period age = Period.between(dateOfBirth, today);
+    private static Builder commonBuilder(String firstName, String lastName, String email, String phoneNumber,
+                                         String username, String rawPassword, String nationalId,
+                                         LocalDate dateOfBirth, Address address, String createdBy) {
+        return builder()
+                .withFullName(firstName, lastName)
+                .withEmail(email)
+                .withPhoneNumber(phoneNumber)
+                .withUsername(username)
+                .withRawPassword(rawPassword)
+                .withNationalId(nationalId)
+                .withDateOfBirth(dateOfBirth)
+                .withAddress(address)
+                .withCreatedBy(createdBy)
+                .withUpdatedBy(createdBy);
+    }
 
-        if (age.getYears() < 18) {
+    public static User createNewCustomer(String firstName, String lastName, String email, String phoneNumber,
+                                         String username, String rawPassword, String nationalId,
+                                         LocalDate dateOfBirth, Address address, String createdBy) {
+        return commonBuilder(firstName, lastName, email, phoneNumber, username, rawPassword,
+                nationalId, dateOfBirth, address, createdBy).build();
+    }
+
+    public static User createNewAdmin(String firstName, String lastName, String email, String phoneNumber,
+                                      String username, String rawPassword, String nationalId,
+                                      LocalDate dateOfBirth, Address address, String createdBy) {
+        return commonBuilder(firstName, lastName, email, phoneNumber, username, rawPassword,
+                nationalId, dateOfBirth, address, createdBy)
+                .withRole(Role.ADMIN)
+                .withStatus(AccountStatus.ACTIVE)
+                .withKycStatus(KycStatus.APPROVED)
+                .build();
+    }
+
+    public static User reconstruct(UserId id, NationalId nationalId, LocalDate dateOfBirth, FullName fullName,
+                                   Email email, PhoneNumber phoneNumber, Address address, Username username,
+                                   String passwordHash, Set<Role> roles, KycStatus kycStatus, RiskRating riskRating,
+                                   AccountStatus status, LocalDateTime createdAt, LocalDateTime updatedAt,
+                                   String createdBy, String updatedBy) {
+        return builder()
+                .withId(id)
+                .withNationalId(nationalId)
+                .withDateOfBirth(dateOfBirth)
+                .withFullName(fullName)
+                .withEmail(email)
+                .withPhoneNumber(phoneNumber)
+                .withAddress(address)
+                .withUsername(username)
+                .withPasswordHash(passwordHash)
+                .withRoles(roles)
+                .withKycStatus(kycStatus)
+                .withRiskRating(riskRating)
+                .withStatus(status)
+                .withCreatedAt(createdAt)
+                .withUpdatedAt(updatedAt)
+                .withCreatedBy(createdBy)
+                .withUpdatedBy(updatedBy)
+                .build();
+    }
+
+    private void validateAge() {
+        if (Period.between(dateOfBirth, LocalDate.now()).getYears() < 18) {
             throw new IllegalArgumentException("User must be at least 18 years old");
         }
     }
 
-    public UserId getId() {
-        return id;
-    }
-
-    public NationalId getNationalId() {
-        return nationalId;
-    }
-
-    public LocalDate getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public FullName getFullName() {
-        return fullName;
-    }
-
-    public Email getEmail() {
-        return email;
-    }
-
-    public PhoneNumber getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public Username getUsername() {
-        return username;
-    }
-
-    public Password getPassword() {
-        return password;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public KycStatus getKycStatus() {
-        return kycStatus;
-    }
-
-    public RiskRating getRiskRating() {
-        return riskRating;
-    }
-
-    public AccountStatus getStatus() {
-        return status;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
     public int getAge() {
-        LocalDate today = LocalDate.now();
-        return Period.between(dateOfBirth, today).getYears();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User other = (User) o;
-        return id.equals(other.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username=" + username +
-                ", fullName=" + fullName +
-                ", email=" + email +
-                '}';
+        return Period.between(dateOfBirth, LocalDate.now()).getYears();
     }
 
     public static Builder builder() {
@@ -162,7 +134,7 @@ public class User {
     }
 
     public static class Builder {
-        private UserId id;
+        private UserId id = UserId.create();
         private NationalId nationalId;
         private LocalDate dateOfBirth;
         private FullName fullName;
@@ -171,29 +143,14 @@ public class User {
         private Address address;
         private Username username;
         private Password password;
-        private Set<Role> roles = new HashSet<>();
-        private KycStatus kycStatus;
-        private RiskRating riskRating;
-        private AccountStatus status;
-        private LocalDateTime createdAt;
-        private LocalDateTime updatedAt;
+        private Set<Role> roles = new HashSet<>(Collections.singleton(Role.CUSTOMER));
+        private KycStatus kycStatus = KycStatus.PENDING;
+        private RiskRating riskRating = RiskRating.LOW;
+        private AccountStatus status = AccountStatus.PRE_ACTIVE;
+        private LocalDateTime createdAt = LocalDateTime.now();
+        private LocalDateTime updatedAt = LocalDateTime.now();
         private String createdBy;
         private String updatedBy;
-
-        public Builder() {
-            // Default values
-            this.id = UserId.create();
-            this.kycStatus = KycStatus.PENDING;
-            this.riskRating = RiskRating.LOW;
-            this.status = AccountStatus.PRE_ACTIVE;
-
-            LocalDateTime now = LocalDateTime.now();
-            this.createdAt = now;
-            this.updatedAt = now;
-
-            // Default role
-            this.roles.add(Role.CUSTOMER);
-        }
 
         public Builder withId(UserId id) {
             this.id = id;
@@ -206,8 +163,7 @@ public class User {
         }
 
         public Builder withNationalId(String nationalId) {
-            this.nationalId = new NationalId(nationalId);
-            return this;
+            return withNationalId(new NationalId(nationalId));
         }
 
         public Builder withDateOfBirth(LocalDate dateOfBirth) {
@@ -221,13 +177,11 @@ public class User {
         }
 
         public Builder withFullName(String firstName, String lastName) {
-            this.fullName = new FullName(firstName, lastName);
-            return this;
+            return withFullName(new FullName(firstName, lastName));
         }
 
         public Builder withFullName(String firstName, String middleName, String lastName) {
-            this.fullName = new FullName(firstName, middleName, lastName);
-            return this;
+            return withFullName(new FullName(firstName, middleName, lastName));
         }
 
         public Builder withEmail(Email email) {
@@ -236,8 +190,7 @@ public class User {
         }
 
         public Builder withEmail(String email) {
-            this.email = new Email(email);
-            return this;
+            return withEmail(new Email(email));
         }
 
         public Builder withPhoneNumber(PhoneNumber phoneNumber) {
@@ -246,8 +199,7 @@ public class User {
         }
 
         public Builder withPhoneNumber(String phoneNumber) {
-            this.phoneNumber = new PhoneNumber(phoneNumber);
-            return this;
+            return withPhoneNumber(new PhoneNumber(phoneNumber));
         }
 
         public Builder withAddress(Address address) {
@@ -261,8 +213,7 @@ public class User {
         }
 
         public Builder withUsername(String username) {
-            this.username = new Username(username);
-            return this;
+            return withUsername(new Username(username));
         }
 
         public Builder withPassword(Password password) {
@@ -271,22 +222,20 @@ public class User {
         }
 
         public Builder withRawPassword(String rawPassword) {
-            this.password = Password.fromRawPassword(rawPassword);
-            return this;
+            return withPassword(Password.fromRawPassword(rawPassword));
         }
 
         public Builder withPasswordHash(String passwordHash) {
-            this.password = Password.fromHash(passwordHash);
-            return this;
+            return withPassword(Password.fromHash(passwordHash));
         }
 
         public Builder withRole(Role role) {
-            this.roles.add(Objects.requireNonNull(role, "Role cannot be null"));
+            this.roles.add(Objects.requireNonNull(role));
             return this;
         }
 
         public Builder withRoles(Set<Role> roles) {
-            this.roles = new HashSet<>(Objects.requireNonNull(roles, "Roles cannot be null"));
+            this.roles = new HashSet<>(Objects.requireNonNull(roles));
             return this;
         }
 
@@ -316,12 +265,12 @@ public class User {
         }
 
         public Builder withCreatedBy(String createdBy) {
-            this.createdBy = Objects.requireNonNull(createdBy, "Created by cannot be null").trim();
+            this.createdBy = createdBy.trim();
             return this;
         }
 
         public Builder withUpdatedBy(String updatedBy) {
-            this.updatedBy = Objects.requireNonNull(updatedBy, "Updated by cannot be null").trim();
+            this.updatedBy = updatedBy.trim();
             return this;
         }
 
