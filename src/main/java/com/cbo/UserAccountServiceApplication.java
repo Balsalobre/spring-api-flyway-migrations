@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @MapperScan("com.cbo.layered.infrastructure.mybatis")
-public class FirstSpringApiRestApplication {
+public class UserAccountServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FirstSpringApiRestApplication.class, args);
+        SpringApplication.run(UserAccountServiceApplication.class, args);
     }
 
 }

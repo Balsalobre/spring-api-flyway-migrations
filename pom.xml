@@ -9,9 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.cbo</groupId>
-	<artifactId>spring-api-flyway</artifactId>
+	<artifactId>user-account-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring-api-flyway</name>
+	<name>user-account-service</name>
+	<description>REST microservice for user account management</description>
 	<url/>
 	<licenses>
 		<license/>

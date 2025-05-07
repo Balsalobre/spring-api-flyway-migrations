@@ -1,6 +1,6 @@
 spring:
   application:
-    name: spring-api
+    name: user-account-service
   flyway:
     enabled: true
     locations: classpath:db/migration
