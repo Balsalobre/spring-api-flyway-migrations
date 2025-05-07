@@ -1,0 +1,23 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+  flyway:
+    enabled: false
+#  autoconfigure:
+#    exclude:
+#      - com.cbo.layered.*
+#      - org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration
+#      - org.mybatis.spring.boot.autoconfigure.MybatisAutoConfiguration
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=Oracle
+    username: sa
+    password: sa
+    hikari:
+      maximum-pool-size: 2
+  mybatis:
+    configuration:
+      map-underscore-to-camel-case: true
+server:
+  port: 0
