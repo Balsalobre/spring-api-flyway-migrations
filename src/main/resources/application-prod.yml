@@ -5,9 +5,19 @@ spring:
 
   datasource:
     url: jdbc:oracle:thin:@//${DB_HOST:oracle-db}:${DB_PORT:1521}/${DB_SID:XEPDB1}
+    driver-class-name: oracle.jdbc.OracleDriver
     username: ${DB_ADMIN_USER}
     password: ${DB_ADMIN_USER_PASS}
 
   flyway:
     user: ${DB_ADMIN_USER}
     password: ${DB_ADMIN_USER_PASS}
+
+mybatis:
+  type-aliases-package: com.cbo.layered.infrastructure.mybatis
+  type-handlers-package: com.cbo.layered.infrastructure.mybatis
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true
+    lazy-loading-enabled: true
+    default-lazy-load-type: proxy

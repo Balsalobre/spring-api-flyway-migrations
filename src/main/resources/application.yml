@@ -1,17 +1,22 @@
 spring:
   application:
     name: user-account-service
+
+  # Fallback profile: arranca con H2 si no hay perfil activo
+  datasource:
+    url: jdbc:h2:mem:default;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  hikari:
+    maximum-pool-size: 5
+    minimum-idle: 1
+
   flyway:
     enabled: true
     locations: classpath:db/migration
-  datasource:
-    driver-class-name: oracle.jdbc.OracleDriver
-    hikari:
-      maximum-pool-size: 10
-      minimum-idle: 5
-      idle-timeout: 10000
+
 mybatis:
-  # mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.cbo.layered.infrastructure.mybatis
   type-handlers-package: com.cbo.layered.infrastructure.mybatis
   configuration:
@@ -22,4 +27,3 @@ mybatis:
 
 server:
   port: 8092
-
