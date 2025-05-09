@@ -27,3 +27,5 @@ mybatis:
 
 server:
   port: 8092
+  servlet:
+    context-path: /api/v1
