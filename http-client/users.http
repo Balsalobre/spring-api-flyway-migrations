@@ -1,0 +1,10 @@
+### Create a new User
+PUT http://localhost:8092/api/v1/users/cb9cf160-5f2b-4d05-baf6-c7833662b309
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "New Client",
+  "email": "new-client02@gmail.com",
+  "password": "123456"
+}

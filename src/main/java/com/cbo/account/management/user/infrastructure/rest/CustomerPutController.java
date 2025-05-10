@@ -1,5 +1,7 @@
 package com.cbo.account.management.user.infrastructure.rest;
 
+import com.cbo.account.management.user.application.create.UserCreator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,11 +9,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/users")
 public final class CustomerPutController {
-    //TODO: API V1
-    // TODO: IMPLEMENT PUT ENDPOINT
+    @Autowired
+    private UserCreator creator;
 
     @PutMapping("/{userId}")
     public ResponseEntity create(@PathVariable String userId, @RequestBody Request request) {
+        creator.createUser(userId, request.getName(), request.getEmail(), request.getPassword());
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
