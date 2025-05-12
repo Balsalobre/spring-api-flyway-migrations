@@ -10,9 +10,23 @@ final class CustomerPutControllerShould extends ApplicationTestCase {
     void createValidUser() throws Exception {
         String requestBody = """
                 {
-                    "name": "John Doe",
-                    "email": "jonhDoe@gmail.comº",
-                    "password": "12345678"
+                   "id": "cb9cf160-5f2b-4d05-baf6-c7833662b309",
+                   "firstName": "Carlos",
+                   "lastName": "Balsalobre",
+                   "email": "new-client02@gmail.com",
+                   "phoneNumber": "+34 666 666 666",
+                   "username": "carlitos",
+                   "rawPassword": "P@ssw0rd!",
+                   "nationalId": "12345678A",
+                   "dateOfBirth": "1990-01-01",
+                   "address": {
+                     "street": "Calle Condes de Barcelona",
+                     "city": "Madrid",
+                     "state": "Madrid",
+                     "country": "Spain",
+                     "postalCode": "28015"
+                   },
+                   "createdBy": "test"
                 }
                 """;
 
