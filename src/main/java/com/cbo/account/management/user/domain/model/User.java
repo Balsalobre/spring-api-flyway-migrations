@@ -8,15 +8,12 @@ import lombok.ToString;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class User {
+public final class User {
     @EqualsAndHashCode.Include
     private final UserId id;
     private final NationalId nationalId;
@@ -59,10 +56,11 @@ public class User {
         validateAge();
     }
 
-    private static Builder commonBuilder(String firstName, String lastName, String email, String phoneNumber,
+    private static Builder commonBuilder(UUID userId, String firstName, String lastName, String email, String phoneNumber,
                                          String username, String rawPassword, String nationalId,
                                          LocalDate dateOfBirth, Address address, String createdBy) {
         return builder()
+                .withId(UserId.fromUUID(userId))
                 .withFullName(firstName, lastName)
                 .withEmail(email)
                 .withPhoneNumber(phoneNumber)
@@ -75,17 +73,17 @@ public class User {
                 .withUpdatedBy(createdBy);
     }
 
-    public static User createNewCustomer(String firstName, String lastName, String email, String phoneNumber,
+    public static User createNewCustomer(UUID userId, String firstName, String lastName, String email, String phoneNumber,
                                          String username, String rawPassword, String nationalId,
                                          LocalDate dateOfBirth, Address address, String createdBy) {
-        return commonBuilder(firstName, lastName, email, phoneNumber, username, rawPassword,
+        return commonBuilder(userId, firstName, lastName, email, phoneNumber, username, rawPassword,
                 nationalId, dateOfBirth, address, createdBy).build();
     }
 
-    public static User createNewAdmin(String firstName, String lastName, String email, String phoneNumber,
+    public static User createNewAdmin(UUID userId, String firstName, String lastName, String email, String phoneNumber,
                                       String username, String rawPassword, String nationalId,
                                       LocalDate dateOfBirth, Address address, String createdBy) {
-        return commonBuilder(firstName, lastName, email, phoneNumber, username, rawPassword,
+        return commonBuilder(userId, firstName, lastName, email, phoneNumber, username, rawPassword,
                 nationalId, dateOfBirth, address, createdBy)
                 .withRole(Role.ADMIN)
                 .withStatus(AccountStatus.ACTIVE)
@@ -134,7 +132,7 @@ public class User {
     }
 
     public static class Builder {
-        private UserId id = UserId.create();
+        private UserId id;
         private NationalId nationalId;
         private LocalDate dateOfBirth;
         private FullName fullName;
@@ -155,6 +153,10 @@ public class User {
         public Builder withId(UserId id) {
             this.id = id;
             return this;
+        }
+
+        public Builder withId(UUID id) {
+            return withId(UserId.fromUUID(id));
         }
 
         public Builder withNationalId(NationalId nationalId) {

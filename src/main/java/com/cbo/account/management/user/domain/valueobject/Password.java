@@ -6,6 +6,14 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+/**
+ * Represents a password value object.
+ * This class is immutable and should be used to encapsulate password-related logic.
+ * It provides methods to create a password from a raw string, validate the password format,
+ * and hash the password securely.
+ *
+ * @example password = Password.fromRawPassword("P@ssw0rd!");
+ */
 public class Password {
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$");
