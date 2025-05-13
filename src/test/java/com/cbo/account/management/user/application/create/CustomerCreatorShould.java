@@ -22,10 +22,8 @@ final class CustomerCreatorShould {
 
     @Test
     void saveValidCustomer() throws Exception {
-        // Arrange
         CustomerCreator creator = new CustomerCreator(repository);
 
-        // Create test data
         UUID userId = UUID.randomUUID();
         String firstName = "John";
         String lastName = "Doe";
@@ -38,22 +36,22 @@ final class CustomerCreatorShould {
         Address address = new Address("123 Main St", "City", "State", "Country", "12345");
         String createdBy = "test";
 
-        // Act
         creator.createUser(
-                userId.toString(),
-                firstName,
-                lastName,
-                email,
-                phoneNumber,
-                username,
-                password,
-                nationalId,
-                dateOfBirth,
-                address,
-                createdBy
+                new CreateCustomerRequest(
+                        userId.toString(),
+                        firstName,
+                        lastName,
+                        email,
+                        phoneNumber,
+                        username,
+                        password,
+                        nationalId,
+                        dateOfBirth.toString(),
+                        address,
+                        createdBy
+                )
         );
 
-        // Assert
         verify(repository, times(1)).save(any(User.class));
     }
 }

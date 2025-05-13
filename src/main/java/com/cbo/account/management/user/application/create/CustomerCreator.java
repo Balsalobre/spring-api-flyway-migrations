@@ -18,22 +18,20 @@ public final class CustomerCreator {
         this.repository = repository;
     }
 
-    public void createUser(String id, String firstName, String lastName, String email, String phoneNumber,
-                           String username, String rawPassword, String nationalId,
-                           LocalDate dateOfBirth, Address address, String createdBy) {
-        UUID userId = UUID.fromString(id);
+    public void createUser(CreateCustomerRequest request) {
+
         User user = User.createNewCustomer(
-                userId,
-                firstName,
-                lastName,
-                email,
-                phoneNumber,
-                username,
-                rawPassword,
-                nationalId,
-                dateOfBirth,
-                address,
-                createdBy
+                UUID.fromString(request.getUserId()),
+                request.getFirstName(),
+                request.getLastName(),
+                request.getEmail(),
+                request.getPhoneNumber(),
+                request.getUsername(),
+                request.getRawPassword(),
+                request.getNationalId(),
+                LocalDate.parse(request.getDateOfBirth()),
+                request.getAddress(),
+                request.getCreatedBy()
         );
 
         repository.save(user);

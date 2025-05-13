@@ -1,5 +1,6 @@
 package com.cbo.account.management.user.infrastructure.rest;
 
+import com.cbo.account.management.user.application.create.CreateCustomerRequest;
 import com.cbo.account.management.user.application.create.CustomerCreator;
 import com.cbo.account.management.user.domain.valueobject.Address;
 import lombok.AllArgsConstructor;
@@ -20,18 +21,20 @@ public final class CustomerPutController {
     private CustomerCreator creator;
 
     @PutMapping("/{userId}")
-    public ResponseEntity create(@PathVariable String userId, @RequestBody Request request) {
-        creator.createUser(userId,
-                request.getFirstName(),
-                request.getLastName(),
-                request.getEmail(),
-                request.getPhoneNumber(),
-                request.getUsername(),
-                request.getRawPassword(),
-                request.getNationalId(),
-                request.getDateOfBirth(),
-                request.getAddress(),
-                request.getCreatedBy()
+    public ResponseEntity<String> create(@PathVariable String userId, @RequestBody Request request) {
+        creator.createUser(new CreateCustomerRequest(
+                        userId,
+                        request.getFirstName(),
+                        request.getLastName(),
+                        request.getEmail(),
+                        request.getPhoneNumber(),
+                        request.getUsername(),
+                        request.getRawPassword(),
+                        request.getNationalId(),
+                        request.getDateOfBirth().toString(),
+                        request.getAddress(),
+                        request.getCreatedBy()
+                )
         );
         return new ResponseEntity(HttpStatus.CREATED);
     }
