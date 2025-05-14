@@ -56,11 +56,11 @@ public final class User {
         validateAge();
     }
 
-    private static Builder commonBuilder(UUID userId, String firstName, String lastName, String email, String phoneNumber,
+    private static Builder commonBuilder(String userId, String firstName, String lastName, String email, String phoneNumber,
                                          String username, String rawPassword, String nationalId,
                                          LocalDate dateOfBirth, Address address, String createdBy) {
         return builder()
-                .withId(UserId.fromUUID(userId))
+                .withId(userId)
                 .withFullName(firstName, lastName)
                 .withEmail(email)
                 .withPhoneNumber(phoneNumber)
@@ -73,14 +73,14 @@ public final class User {
                 .withUpdatedBy(createdBy);
     }
 
-    public static User createNewCustomer(UUID userId, String firstName, String lastName, String email, String phoneNumber,
+    public static User createNewCustomer(String userId, String firstName, String lastName, String email, String phoneNumber,
                                          String username, String rawPassword, String nationalId,
                                          LocalDate dateOfBirth, Address address, String createdBy) {
         return commonBuilder(userId, firstName, lastName, email, phoneNumber, username, rawPassword,
                 nationalId, dateOfBirth, address, createdBy).build();
     }
 
-    public static User createNewAdmin(UUID userId, String firstName, String lastName, String email, String phoneNumber,
+    public static User createNewAdmin(String userId, String firstName, String lastName, String email, String phoneNumber,
                                       String username, String rawPassword, String nationalId,
                                       LocalDate dateOfBirth, Address address, String createdBy) {
         return commonBuilder(userId, firstName, lastName, email, phoneNumber, username, rawPassword,
@@ -155,8 +155,8 @@ public final class User {
             return this;
         }
 
-        public Builder withId(UUID id) {
-            return withId(UserId.fromUUID(id));
+        public Builder withId(String id) {
+            return withId(new UserId(id));
         }
 
         public Builder withNationalId(NationalId nationalId) {

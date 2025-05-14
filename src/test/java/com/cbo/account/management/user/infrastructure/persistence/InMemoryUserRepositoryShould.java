@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 final class InMemoryUserRepositoryShould {
     final User user = User.createNewCustomer(
-            UUID.randomUUID(),
+            UUID.randomUUID().toString(),
             "John",
             "Doe",
             "dsf@fds.com",
@@ -49,7 +49,7 @@ final class InMemoryUserRepositoryShould {
 
         repository.save(this.user);
 
-        User expectedUser = repository.search(user.getId().getValue()).orElse(null);
+        User expectedUser = repository.search(user.getId().value()).orElse(null);
 
         assertEquals(user, expectedUser, "User should be the same");
     }
@@ -58,6 +58,6 @@ final class InMemoryUserRepositoryShould {
     void notFoundExistingUser() {
         InMemoryUserRepository repository = new InMemoryUserRepository();
 
-        assertFalse(repository.search(UUID.randomUUID()).isPresent());
+        assertFalse(repository.search(UUID.randomUUID().toString()).isPresent());
     }
 }

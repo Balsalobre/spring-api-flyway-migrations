@@ -33,9 +33,7 @@ public final class CreateCustomerRequest {
         this.createdBy = createdBy;
     }
 
-    public String getUserId() {
-        return userId;
-    }
+    public String getUserId() { return userId; }
 
     public String getPhoneNumber() {
         return phoneNumber;
